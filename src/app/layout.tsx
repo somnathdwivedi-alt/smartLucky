@@ -22,11 +22,11 @@ const mulish = Mulish({
 export const metadata: Metadata = {
   metadataBase: new URL("https://growthplatform.com"),
   title: {
-    default: "GrowthPlatform | Digital Marketing, Affiliate & Advertising Agency",
-    template: "%s | GrowthPlatform",
+    default: "Smart Lucky | Digital Marketing, Affiliate & Advertising Agency",
+    template: "%s | Smart Lucky",
   },
   description:
-    "GrowthPlatform provides full-service digital marketing, affiliate marketing, Google Ads, Meta Ads, SEO, email marketing, and performance marketing. AI-powered growth solutions trusted by 2,000+ enterprises worldwide.",
+    "Smart Lucky provides full-service digital marketing, affiliate marketing, Google Ads, Meta Ads, SEO, email marketing, and performance marketing. AI-powered growth solutions trusted by 2,000+ enterprises worldwide.",
   keywords: [
     "digital marketing",
     "SEO",
@@ -37,16 +37,16 @@ export const metadata: Metadata = {
     "lead generation",
     "conversion optimization",
   ],
-  authors: [{ name: "GrowthPlatform" }],
-  creator: "GrowthPlatform",
-  publisher: "GrowthPlatform",
+  authors: [{ name: "Smart Lucky" }],
+  creator: "Smart Lucky",
+  publisher: "Smart Lucky",
   robots: { index: true, follow: true },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://growthplatform.com",
-    siteName: "GrowthPlatform",
-    title: "GrowthPlatform | Enterprise Digital Marketing & Growth Agency",
+    siteName: "Smart Lucky",
+    title: "Smart Lucky | Enterprise Digital Marketing & Growth Agency",
     description:
       "Scale your business with AI-powered digital marketing, SEO, paid advertising, and growth strategy.",
     images: [
@@ -54,13 +54,13 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "GrowthPlatform - Digital Marketing Agency",
+        alt: "Smart Lucky - Digital Marketing Agency",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "GrowthPlatform | Enterprise Digital Marketing & Growth Agency",
+    title: "Smart Lucky | Enterprise Digital Marketing & Growth Agency",
     description:
       "Scale your business with AI-powered digital marketing, SEO, paid advertising, and growth strategy.",
     images: ["/og-image.jpg"],
