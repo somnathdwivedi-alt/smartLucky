@@ -137,7 +137,6 @@ function GhostCard({
         flex flex-col bg-white rounded-2xl border border-[#EAEAEA]
         shadow-[0_2px_16px_0_rgba(0,0,0,0.06)]
         p-5 pointer-events-none
-        opacity-30
       `}
       aria-hidden="true"
       style={{ transform: side === "left" ? "scale(0.88) translateX(-16px)" : "scale(0.88) translateX(16px)" }}
@@ -354,7 +353,7 @@ export default function Process() {
               <motion.div
                 key={`ghost-left-${prevStep.number}`}
                 initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 0.28, x: 0, scale: 0.86, originX: "right" }}
+                animate={{ opacity: 0.5, x: 0, scale: 0.86, originX: "right" }}
                 exit={{ opacity: 0, x: -30 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
               >
@@ -388,7 +387,7 @@ export default function Process() {
               <motion.div
                 key={`ghost-right-${nextStep.number}`}
                 initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 0.28, x: 0, scale: 0.86, originX: "left" }}
+                animate={{ opacity: 0.5, x: 0, scale: 0.86, originX: "left" }}
                 exit={{ opacity: 0, x: 30 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
               >
