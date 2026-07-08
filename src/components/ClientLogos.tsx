@@ -13,24 +13,24 @@ interface Brand {
 }
 
 const brands: Brand[] = [
-  { name: "Google",     logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",              width: 72 },
-  { name: "Meta",       logo: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg",      width: 68 },
-  { name: "HubSpot",    logo: "https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg",                  width: 80 },
-  { name: "Microsoft",  logo: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg",     width: 90 },
-  { name: "Amazon",     logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",                   width: 72 },
-  { name: "Adobe",      logo: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Adobe_Systems_logo_and_wordmark.svg", width: 70 },
-  { name: "Shopify",    logo: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopify_logo_2018.svg",             width: 76 },
-  { name: "Slack",      logo: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg",       width: 62 },
-  { name: "Stripe",     logo: "https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg",  width: 56 },
-  { name: "Salesforce", logo: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg",          width: 90 },
-  { name: "Netflix",    logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",             width: 70 },
-  { name: "Airbnb",     logo: "https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg",        width: 76 },
-  { name: "Atlassian",  logo: "https://upload.wikimedia.org/wikipedia/commons/8/82/Atlassian-logo.svg",               width: 82 },
-  { name: "Zoom",       logo: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Zoom_Communications_Logo.svg",     width: 66 },
-  { name: "Notion",     logo: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png",              width: 26 },
-  { name: "Figma",      logo: "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg",                   width: 24 },
-  { name: "Spotify",    logo: "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg",    width: 24 },
-  { name: "LinkedIn",   logo: "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png",       width: 24 },
+  { name: "Google",     logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",              width: 110 },
+  { name: "Meta",       logo: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg",      width: 104 },
+  { name: "HubSpot",    logo: "https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg",                  width: 120 },
+  { name: "Microsoft",  logo: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg",     width: 140 },
+  { name: "Amazon",     logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",                   width: 110 },
+  { name: "Adobe",      logo: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Adobe_Systems_logo_and_wordmark.svg", width: 106 },
+  { name: "Shopify",    logo: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopify_logo_2018.svg",             width: 114 },
+  { name: "Slack",      logo: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg",       width: 94 },
+  { name: "Stripe",     logo: "https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg",  width: 84 },
+  { name: "Salesforce", logo: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg",          width: 140 },
+  { name: "Netflix",    logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",             width: 106 },
+  { name: "Airbnb",     logo: "https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg",        width: 114 },
+  { name: "Atlassian",  logo: "https://cdn.simpleicons.org/atlassian/0052CC",                                width: 124 },
+  { name: "Zoom",       logo: "https://cdn.simpleicons.org/zoom/0B5CFF",                                         width: 100 },
+  { name: "Notion",     logo: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png",              width: 40 },
+  { name: "Figma",      logo: "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg",                   width: 36 },
+  { name: "Spotify",    logo: "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg",    width: 36 },
+  { name: "LinkedIn",   logo: "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png",       width: 36 },
 ];
 
 /* Split into rows of N */
@@ -93,7 +93,7 @@ export default function ClientLogos() {
                     style={{
                       width: brand.width,
                       height: "auto",
-                      maxHeight: 22,
+                      maxHeight: 36,
                       objectFit: "contain",
                       display: "block",
                     }}

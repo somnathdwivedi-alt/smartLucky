@@ -67,7 +67,7 @@ export default function FAQ() {
       : faqs.filter((faq) => faq.category === activeCategory);
 
   return (
-    <section className="py-16 md:py-24 bg-gray-50" aria-label="Frequently asked questions">
+    <section className="py-14 md:py-16 bg-gray-50" aria-label="Frequently asked questions">
       <div className="container-custom max-w-3xl">
         {/* Section Header */}
         <div className="text-center mb-12">
