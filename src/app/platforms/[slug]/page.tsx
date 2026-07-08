@@ -35,7 +35,7 @@ export default async function PlatformPage({ params }: { params: Promise<{ slug:
         <img src={platform.heroImage} alt={platform.heroImageAlt} className="w-full h-full object-cover" loading="eager" />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-900/50 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 pb-10">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="container-reading">
             <h1 className="text-[1.8rem] sm:text-3xl lg:text-[2.2rem] font-semibold text-white tracking-tight max-w-2xl leading-tight">
               {platform.title}
             </h1>
@@ -46,7 +46,7 @@ export default async function PlatformPage({ params }: { params: Promise<{ slug:
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="container-reading py-10">
 
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-sm text-gray-400 mb-10" aria-label="breadcrumb">

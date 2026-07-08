@@ -200,7 +200,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       </div>
 
       {/* ── ARTICLE LAYOUT ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="container-custom py-12">
         <div className="grid lg:grid-cols-[1fr_300px] gap-12 items-start">
 
           {/* ── MAIN ARTICLE ── */}
@@ -352,7 +352,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       {/* ── RELATED POSTS ── */}
       {related.length > 0 && (
         <section className="py-14 bg-gray-50 border-t border-gray-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="container-custom">
             <div className="flex items-center justify-between mb-8">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900">Recommended for You</h2>

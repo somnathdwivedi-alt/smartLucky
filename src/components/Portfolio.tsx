@@ -46,7 +46,7 @@ const caseStudies = [
 export default function Portfolio() {
   return (
     <section className="py-14 md:py-16 bg-gray-50" aria-label="Case studies">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container-custom">
 
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-14">

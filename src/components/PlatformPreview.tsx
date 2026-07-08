@@ -61,7 +61,7 @@ const coreEngines = [
 export default function PlatformPreview() {
   return (
     <section className="py-20 md:py-28 bg-gray-50" aria-label="Platform overview">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container-custom">
 
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">

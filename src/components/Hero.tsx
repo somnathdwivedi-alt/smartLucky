@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   ArrowRight,
   Users,
@@ -46,6 +46,12 @@ function StatBadge({ icon: Icon, label, value, delay = 0, float = "up" }: StatBa
 export default function Hero() {
   const [btnHovered, setBtnHovered] = useState(false);
 
+  /* ── Kinetic parallax (images shift on scroll) ── */
+  const { scrollY } = useScroll();
+  const womanParallax = useTransform(scrollY, [0, 500], [0, -70]);
+  const manParallax = useTransform(scrollY, [0, 500], [0, -40]);
+  const bgParallax = useTransform(scrollY, [0, 500], [0, -20]);
+
   /* Pexels real photo URLs */
   const womanUrl =
     "https://images.pexels.com/photos/28607476/pexels-photo-28607476.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=900&w=600";
@@ -56,7 +62,8 @@ export default function Hero() {
     <section className="relative min-h-[92vh] flex items-center pt-20 pb-16 overflow-hidden bg-white">
       {/* ── Subtle decorative SVG curves ── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
-        <svg
+        <motion.svg
+          style={{ y: bgParallax }}
           className="absolute top-0 right-0 w-[780px] h-[780px] opacity-[0.04]"
           viewBox="0 0 800 800"
           fill="none"
@@ -70,10 +77,10 @@ export default function Hero() {
               strokeWidth="1"
             />
           ))}
-        </svg>
+        </motion.svg>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative">
+      <div className="container-custom w-full relative">
         <div className="grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-20 items-center">
 
           {/* ═══════════════ LEFT COPY ═══════════════ */}
@@ -233,6 +240,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+              style={{ y: womanParallax }}
               className="relative self-end"
             >
               <div className="w-[210px] h-[310px] rounded-[22px] overflow-hidden shadow-2xl border border-white/60">
@@ -265,6 +273,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.46, ease: [0.25, 0.46, 0.45, 0.94] }}
+              style={{ y: manParallax }}
               className="relative self-start mt-8"
             >
               <div className="w-[225px] h-[340px] rounded-[22px] overflow-hidden shadow-2xl border border-white/60">

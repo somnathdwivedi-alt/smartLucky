@@ -106,7 +106,7 @@ function BlogCard({ article, index }: { article: BlogPost; index: number }) {
 export default function BlogSection() {
   return (
     <section className="py-16 md:py-20 bg-white" aria-label="Latest articles">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container-custom">
 
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-12">
           <div>

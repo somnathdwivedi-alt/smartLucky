@@ -126,19 +126,25 @@ const services: Service[] = [
 function ServiceCard({ s, i }: { s: Service; i: number }) {
   return (
     <motion.article
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      layout
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-30px" }}
       exit={{ opacity: 0, y: 12, scale: 0.97 }}
-      transition={{ duration: 0.36, delay: Math.min(i * 0.055, 0.38) }}
+      transition={{ duration: 0.45, delay: Math.min(i * 0.06, 0.4), ease: [0.25, 0.46, 0.45, 0.94] }}
       className="group flex flex-col bg-white rounded-[18px] border border-[#EAEAEA] shadow-[0_1px_8px_0_rgba(0,0,0,0.05)] hover:shadow-[0_8px_28px_0_rgba(0,0,0,0.10)] hover:-translate-y-[3px] transition-all duration-300"
       style={{ padding: "11px" }}
     >
-      {/* ── IMAGE  (≈52% height) ── */}
+      {/* ── IMAGE  (≈52% height) — kinetic scale on scroll ── */}
       <div
         className="relative rounded-[12px] overflow-hidden flex-shrink-0 mb-[11px]"
         style={{ height: "130px" }}
       >
-        <img
+        <motion.img
+          initial={{ scale: 1.15 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: "easeOut" }}
           src={s.image}
           alt={s.title}
           className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-500"
@@ -157,10 +163,10 @@ function ServiceCard({ s, i }: { s: Service; i: number }) {
 
       {/* ── INFO ── */}
       <div className="flex flex-col flex-1 px-0.5">
-        <h3 className="text-[13px] font-bold text-gray-900 leading-snug mb-[5px] line-clamp-1">
+        <h3 className="text-[14px] font-bold text-gray-900 leading-snug mb-[5px] line-clamp-1">
           {s.title}
         </h3>
-        <p className="text-[11px] text-gray-400 leading-relaxed line-clamp-2 flex-1 mb-[12px]">
+        <p className="text-[12px] text-gray-400 leading-relaxed line-clamp-2 flex-1 mb-[12px]">
           {s.description}
         </p>
 
@@ -192,7 +198,7 @@ export default function Services() {
 
   return (
     <section className="py-16 md:py-20 bg-gray-50" id="services" aria-label="Our services">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container-custom">
 
         {/* ── Section Header ── */}
         <div className="text-center max-w-2xl mx-auto mb-10">

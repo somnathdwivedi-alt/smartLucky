@@ -148,7 +148,7 @@ export default function AboutContent() {
           }}
         />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="container-custom w-full">
           <div className="grid lg:grid-cols-2 gap-0 items-stretch min-h-[calc(92vh-6rem)]">
 
             {/* Left — copy */}
@@ -290,7 +290,7 @@ export default function AboutContent() {
           STORY TIMELINE — alternating real images
       ══════════════════════════════════════════ */}
       <section id="story" className="py-20 md:py-28 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
 
           {/* Section header */}
           <div className="text-center mb-16">
@@ -357,7 +357,7 @@ export default function AboutContent() {
           VALUES — ServiceCategoryCards
       ══════════════════════════════════════════ */}
       <section className="py-20 md:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
 
           <div className="text-center mb-16">
             <span className="inline-block text-xs font-semibold text-primary uppercase tracking-widest mb-3">
@@ -392,7 +392,7 @@ export default function AboutContent() {
           VISION — split bento grid with real photos
       ══════════════════════════════════════════ */}
       <section className="py-20 md:py-28 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
 
           <div className="text-center mb-16">
             <span className="inline-block text-xs font-semibold text-primary uppercase tracking-widest mb-3">
@@ -489,7 +489,7 @@ export default function AboutContent() {
           TEAM — full-bleed cards with real photos
       ══════════════════════════════════════════ */}
       <section id="team" className="py-20 md:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
 
           <div className="text-center mb-16">
             <span className="inline-block text-xs font-semibold text-primary uppercase tracking-widest mb-3">
@@ -547,7 +547,7 @@ export default function AboutContent() {
           GLOBAL NETWORK — hero photo + stats
       ══════════════════════════════════════════ */}
       <section className="py-20 md:py-28 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
 
           <div className="text-center mb-16">
             <span className="inline-block text-xs font-semibold text-primary uppercase tracking-widest mb-3">
@@ -614,7 +614,7 @@ export default function AboutContent() {
           CAREERS — real team culture photo + perks
       ══════════════════════════════════════════ */}
       <section id="careers" className="py-20 md:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
 
           <div className="grid lg:grid-cols-2 gap-16 items-center">
 

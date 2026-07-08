@@ -31,7 +31,7 @@ export default function ServicesContent() {
     <div>
       {/* ── Hero ── */}
       <section className="pt-32 pb-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="container-custom text-center">
           <span className="inline-block text-xs font-semibold text-primary uppercase tracking-widest mb-3">
             Our Services
           </span>
@@ -49,7 +49,7 @@ export default function ServicesContent() {
 
       {/* ── SEO Section ── */}
       <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative rounded-2xl overflow-hidden h-[420px] shadow-xl">
               <img
@@ -98,7 +98,7 @@ export default function ServicesContent() {
 
       {/* ── Paid Performance ── */}
       <section className="py-16 md:py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Paid Performance & Acquisition</h2>
@@ -153,7 +153,7 @@ export default function ServicesContent() {
 
       {/* ── Affiliate ── */}
       <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900">Affiliate & Partner Ecosystems</h2>
             <p className="mt-3 text-gray-600 max-w-2xl mx-auto">Build an army of advocates. We design and manage world-class referral programs that turn your customers into your most effective sales force.</p>
@@ -206,7 +206,7 @@ export default function ServicesContent() {
 
       {/* ── AI Automation ── */}
       <section className="py-16 md:py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative rounded-2xl overflow-hidden h-[400px] shadow-xl">
               <img
@@ -251,7 +251,7 @@ export default function ServicesContent() {
 
       {/* ── Solution Finder ── */}
       <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
           <div className="bg-gray-50 rounded-2xl p-6 md:p-12 border border-gray-100">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Solution Finder</h2>
             <p className="text-sm text-gray-500 mb-6">Select your industry to see tailored solutions.</p>

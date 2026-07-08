@@ -162,7 +162,11 @@ h1.font-black, h2.font-black, h3.font-black {
 }
 
 .container-custom {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:max-w-[88rem] 2xl:max-w-[120rem] 2xl:px-12;
+}
+
+.container-reading {
+  @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 xl:max-w-[68rem] 2xl:max-w-[72rem];
 }
 
 /* Animated Background */
@@ -300,18 +304,3 @@ h1.font-black, h2.font-black, h3.font-black {
   border-radius: var(--radius-md);
 }
 
-/* Skip to main content */
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  background: var(--primary);
-  color: white;
-  padding: 8px 16px;
-  z-index: 100;
-  transition: top 0.3s;
-}
-
-.skip-link:focus {
-  top: 0;
-}

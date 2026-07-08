@@ -35,7 +35,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
         <img src={sol.heroImage} alt={sol.heroImageAlt} className="w-full h-full object-cover" loading="eager" />
         <div className="absolute inset-0 bg-gradient-to-t from-gray-950/90 via-gray-900/50 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 pb-10">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="container-reading">
             <div className="flex flex-wrap items-center gap-2 mb-3">
               <span className={`text-[11px] font-bold ${sol.accentColor} bg-white px-3 py-1 rounded-full`}>{sol.industry}</span>
               <span className="text-[11px] font-bold text-white/70 bg-white/10 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20">{sol.badge}</span>
@@ -46,7 +46,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="container-reading py-10">
 
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1.5 text-sm text-gray-400 mb-10" aria-label="breadcrumb">

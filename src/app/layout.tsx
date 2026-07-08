@@ -81,9 +81,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className={`${montserrat.variable} ${mulish.variable}`}
     >
       <body className="font-body antialiased text-gray-900 bg-white">
-        <a href="#main-content" className="skip-link">
-          Skip to main content
-        </a>
         {children}
       </body>
     </html>

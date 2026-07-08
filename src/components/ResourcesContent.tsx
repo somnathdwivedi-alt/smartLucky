@@ -358,7 +358,7 @@ export default function ResourcesContent() {
         <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
           style={{ backgroundImage: "radial-gradient(circle, #0f172a 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div className="container-custom relative">
           <div className="text-center max-w-3xl mx-auto">
             <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
               className="inline-flex items-center gap-2 bg-primary/8 border border-primary/15 rounded-full px-4 py-1.5 mb-6">
@@ -425,7 +425,7 @@ export default function ResourcesContent() {
           with REAL background images
       ══════════════════════════════════════════ */}
       <section className="py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
           <div className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900">Featured This Week</h2>
             <p className="text-sm text-gray-500 mt-1">Our most-downloaded digital marketing and affiliate resources</p>
@@ -529,7 +529,7 @@ export default function ResourcesContent() {
           RESOURCE LIBRARY — category filter + image cards
       ══════════════════════════════════════════ */}
       <section className="py-12 md:py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
 
           {/* Header */}
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-10">
@@ -582,7 +582,7 @@ export default function ResourcesContent() {
           SIDEBAR LAYOUT — Popular + Case Studies
       ══════════════════════════════════════════ */}
       <section className="py-12 md:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
           <div className="grid lg:grid-cols-3 gap-10">
 
             {/* Popular + Subscribe */}
@@ -716,7 +716,7 @@ export default function ResourcesContent() {
           SERVICES HIGHLIGHT STRIP
       ══════════════════════════════════════════ */}
       <section className="py-10 bg-gray-50 border-y border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
           <p className="text-center text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-8">
             GrowthPlatform provides full-service digital marketing solutions
           </p>
@@ -747,7 +747,7 @@ export default function ResourcesContent() {
           NEWSLETTER CTA — dark strip
       ══════════════════════════════════════════ */}
       <section className="py-12 bg-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container-custom">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <h2 className="text-2xl font-semibold text-white mb-2">Get the Growth Playbook</h2>

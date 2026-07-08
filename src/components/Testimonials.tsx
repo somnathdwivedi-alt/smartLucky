@@ -58,7 +58,7 @@ const testimonials = [
 export default function Testimonials() {
   return (
     <section className="py-14 md:py-16 bg-gray-50" aria-label="Client testimonials">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container-custom">
 
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="inline-block text-xs font-semibold text-primary uppercase tracking-widest mb-3">

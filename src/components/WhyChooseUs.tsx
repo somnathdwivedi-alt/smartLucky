@@ -142,7 +142,7 @@ export default function WhyChooseUs() {
         style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "28px 28px" }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="container-custom relative">
 
         {/* ── Section Header ── */}
         <div className="text-center max-w-2xl mx-auto mb-10">

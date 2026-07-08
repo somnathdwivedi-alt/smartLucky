@@ -96,7 +96,7 @@ export default function Pricing() {
       id="pricing"
       aria-label="Pricing plans"
     >
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container-reading">
 
         {/* ── Header ── */}
         <div className="text-center max-w-xl mx-auto mb-10">
