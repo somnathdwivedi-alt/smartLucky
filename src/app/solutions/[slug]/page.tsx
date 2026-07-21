@@ -3,16 +3,14 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getSolutionBySlug, allSolutions } from "@/data/solutions";
+import { getSolutionBySlug, getAllSolutions } from "@/data/live";
 import { Check, ArrowRight, ChevronRight, ArrowLeft, Star, Lightbulb, Wrench, HelpCircle } from "lucide-react";
 
-export async function generateStaticParams() {
-  return allSolutions.map((s) => ({ slug: s.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const sol = getSolutionBySlug(slug);
+  const sol = await getSolutionBySlug(slug);
   if (!sol) return { title: "Solution Not Found" };
   return {
     title: `${sol.title} | GrowthPlatform`,
@@ -23,8 +21,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function SolutionPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const sol = getSolutionBySlug(slug);
+  const sol = await getSolutionBySlug(slug);
   if (!sol) notFound();
+
+  const otherSolutions = (await getAllSolutions()).filter((s) => s.slug !== sol.slug);
 
   return (
     <main id="main-content" className="bg-white">
@@ -254,7 +254,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
             <div className="bg-white rounded-2xl border border-[#EAEAEA] p-5">
               <h3 className="text-[12px] font-bold text-gray-900 mb-4 uppercase tracking-wider">Other Solutions</h3>
               <div className="space-y-1">
-                {allSolutions.filter((s) => s.slug !== sol.slug).map((rel) => (
+                {otherSolutions.map((rel) => (
                   <Link key={rel.slug} href={`/solutions/${rel.slug}`}
                     className="flex items-center justify-between px-3 py-2 text-[12.5px] text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors group">
                     {rel.industry}

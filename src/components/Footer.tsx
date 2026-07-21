@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { TrendingUp, ArrowUpRight } from "lucide-react";
+import { useLiveSettings } from "@/data/live-client";
 
 const footerLinks = {
   services: [
@@ -74,6 +77,30 @@ const socialIcons: Record<string, React.ReactElement> = {
 };
 
 export default function Footer() {
+  const settings = useLiveSettings({
+    footer: {
+      about: "The premium enterprise growth platform for modern marketing leaders. AI-powered digital marketing for global scale.",
+      copyright: "© 2024 GrowthPlatform. All rights reserved.",
+      columns: [
+        { title: "Services", links: footerLinks.services },
+        { title: "Company", links: footerLinks.company },
+        { title: "Resources", links: footerLinks.resources },
+        { title: "Legal", links: footerLinks.legal },
+      ],
+      social: socialLinks,
+    },
+  });
+  const footer = settings.footer || {};
+  const columns = footer.columns && footer.columns.length ? footer.columns : [
+    { title: "Services", links: footerLinks.services },
+    { title: "Company", links: footerLinks.company },
+    { title: "Resources", links: footerLinks.resources },
+    { title: "Legal", links: footerLinks.legal },
+  ];
+  const social = footer.social && footer.social.length ? footer.social : socialLinks;
+  const about = footer.about || "The premium enterprise growth platform for modern marketing leaders. AI-powered digital marketing for global scale.";
+  const copyright = footer.copyright || "© 2024 GrowthPlatform. All rights reserved.";
+
   return (
     <footer className="bg-gray-50 border-t border-gray-100" role="contentinfo">
       <div className="container-custom">
@@ -83,19 +110,15 @@ export default function Footer() {
             {/* Brand Column */}
             <div className="col-span-2">
               <Link href="/" className="flex items-center gap-2 mb-4">
-                {/* <div className="w-8 h-8 bg-gradient-to-br from-primary to-purple-600 rounded-lg flex items-center justify-center">
-                  <TrendingUp className="w-4 h-4 text-white" />
-                </div> */}
                 <span className="text-lg font-bold text-gray-900">
                   Smart<span className="text-primary">Lucky</span>
                 </span>
               </Link>
               <p className="text-sm text-gray-500 mb-6 max-w-xs">
-                The premium enterprise growth platform for modern marketing leaders.
-                AI-powered digital marketing for global scale.
+                {about}
               </p>
               <div className="flex items-center gap-3">
-                {socialLinks.map((social) => (
+                {social.map((social) => (
                   <a
                     key={social.label}
                     href={social.href}
@@ -108,73 +131,24 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Services */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">Services</h3>
-              <ul className="space-y-2.5">
-                {footerLinks.services.slice(0, 6).map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Company */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">Company</h3>
-              <ul className="space-y-2.5">
-                {footerLinks.company.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Resources */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">Resources</h3>
-              <ul className="space-y-2.5">
-                {footerLinks.resources.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Legal */}
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">Legal</h3>
-              <ul className="space-y-2.5">
-                {footerLinks.legal.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {/* Link columns */}
+            {columns.map((col) => (
+              <div key={col.title}>
+                <h3 className="text-sm font-semibold text-gray-900 mb-4">{col.title}</h3>
+                <ul className="space-y-2.5">
+                  {col.links.map((link) => (
+                    <li key={(link as any).label || (link as any).name}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                      >
+                        {(link as any).label || (link as any).name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -209,7 +183,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="py-6 border-t border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <p className="text-sm text-gray-400">
-            © 2024 GrowthPlatform. All rights reserved.
+            {copyright}
           </p>
           <div className="flex items-center gap-6">
             <Link

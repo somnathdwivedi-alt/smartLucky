@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 import GrowthCard from "@/components/ui/GrowthCard";
+import { useLiveSettings } from "@/data/live-client";
 
 const testimonials = [
   {
@@ -56,6 +57,8 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
+  const settings = useLiveSettings({ testimonials });
+  const items = settings.testimonials && settings.testimonials.length ? settings.testimonials : testimonials;
   return (
     <section className="py-14 md:py-16 bg-gray-50" aria-label="Client testimonials">
       <div className="container-custom">
@@ -77,7 +80,7 @@ export default function Testimonials() {
 
         {/* 4-up grid of food-style cards */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {testimonials.map((t, i) => (
+          {items.map((t, i) => (
             <motion.div
               key={t.name}
               initial={{ opacity: 0, y: 22 }}

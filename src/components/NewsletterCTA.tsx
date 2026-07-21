@@ -3,10 +3,20 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Check } from "lucide-react";
+import { useLiveSettings } from "@/data/live-client";
 
 export default function NewsletterCTA() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const settings = useLiveSettings({
+    newsletter: {
+      title: "Get the Growth Playbook",
+      subtitle: "Weekly insights on affiliate networks, referral marketing, and customer acquisition delivered to your inbox.",
+      buttonText: "Subscribe",
+      socialProof: "Join 24,000+ growth leaders. Unsubscribe anytime.",
+    },
+  });
+  const nl = settings.newsletter || {};
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,10 +46,10 @@ export default function NewsletterCTA() {
               <Mail className="w-7 h-7 text-primary" />
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">
-              Get the Growth Playbook
+              {nl.title}
             </h2>
             <p className="text-gray-400 mb-8">
-              Weekly insights on affiliate networks, referral marketing, and customer acquisition delivered to your inbox.
+              {nl.subtitle}
             </p>
 
             {submitted ? (
@@ -68,13 +78,13 @@ export default function NewsletterCTA() {
                   type="submit"
                   className="bg-primary text-white px-7 py-3.5 rounded-xl font-medium hover:bg-primary-dark transition-all hover:shadow-lg hover:shadow-primary/25 active:scale-95 whitespace-nowrap"
                 >
-                  Subscribe
+                  {nl.buttonText}
                 </button>
               </form>
             )}
 
             <p className="text-xs text-gray-500 mt-4">
-              Join 24,000+ growth leaders. Unsubscribe anytime.
+              {nl.socialProof}
             </p>
           </motion.div>
         </div>

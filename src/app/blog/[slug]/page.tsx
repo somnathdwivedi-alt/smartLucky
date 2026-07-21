@@ -2,17 +2,20 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getPostBySlug, getRelatedPosts, type ArticleBlock } from "@/data/blogs";
+import { getPostBySlug, getRelatedPosts } from "@/data/live";
+import { type ArticleBlock, type BlogPost } from "@/data/blogs";
 import {
   ArrowLeft, Clock, Calendar, Share2, Bookmark,
   ChevronRight, ArrowRight, Tag, User,
 } from "lucide-react";
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 /* ── Dynamic metadata ── */
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(decodeURIComponent(slug));
+  const post = await getPostBySlug(decodeURIComponent(slug));
   if (!post) return { title: "Article Not Found" };
   return {
     title: post.title,
@@ -102,7 +105,7 @@ function RenderBlock({ block }: { block: ArticleBlock }) {
 }
 
 /* ── Related post card ── */
-function RelatedCard({ post }: { post: ReturnType<typeof getPostBySlug> }) {
+function RelatedCard({ post }: { post: BlogPost | undefined }) {
   if (!post) return null;
   return (
     <Link
@@ -156,11 +159,11 @@ function RelatedCard({ post }: { post: ReturnType<typeof getPostBySlug> }) {
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug: rawSlug } = await params;
   const slug = decodeURIComponent(rawSlug);
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) notFound();
 
-  const related = getRelatedPosts(post);
+  const related = await getRelatedPosts(post);
 
   return (
     <main id="main-content" className="bg-white">

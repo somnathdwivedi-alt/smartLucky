@@ -1,9 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Clock, Calendar, Brain, TrendingUp, Users } from "lucide-react";
 import { allPosts, type BlogPost } from "@/data/blogs";
+import { getAllPosts } from "@/data/live";
 import { LucideIcon } from "lucide-react";
 
 /* Category icon map */
@@ -15,8 +17,8 @@ const categoryIconMap: Record<string, LucideIcon> = {
   "Email": Brain,
 };
 
-/* Only show first 3 posts on homepage */
-const articles = allPosts.slice(0, 3);
+/* Only show first 3 posts on homepage (seeded initially, then live) */
+const seedArticles = allPosts.slice(0, 3);
 
 /* ─── BLOG CARD ─── */
 function BlogCard({ article, index }: { article: BlogPost; index: number }) {
@@ -104,6 +106,20 @@ function BlogCard({ article, index }: { article: BlogPost; index: number }) {
 
 /* ─── SECTION ─── */
 export default function BlogSection() {
+  const [articles, setArticles] = useState<BlogPost[]>(seedArticles);
+
+  useEffect(() => {
+    let active = true;
+    getAllPosts()
+      .then((posts) => {
+        if (active) setArticles(posts.slice(0, 3));
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
   return (
     <section className="py-16 md:py-20 bg-white" aria-label="Latest articles">
       <div className="container-custom">
@@ -117,7 +133,7 @@ export default function BlogSection() {
             </h2>
             <p className="mt-2 text-gray-500 text-sm">Expert strategies and frameworks from GrowthPlatform&apos;s growth practitioners.</p>
           </div>
-          <Link href="/resources" className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all text-sm flex-shrink-0">
+          <Link href="/blog" className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all text-sm flex-shrink-0">
             View All Articles <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

@@ -6,8 +6,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, ChevronDown, Search, Target, Users, BarChart3,
   TrendingUp, Zap, Brain, Mail, Globe, Code, Layout, Palette, Megaphone,
-  LucideIcon,
+  Sparkles, Lightbulb, Rocket, Shield, Star, Heart,
+  type LucideIcon,
 } from "lucide-react";
+import { useLiveSettings } from "@/data/live-client";
+
+const ICON_MAP: Record<string, LucideIcon> = {
+  Search, Target, Users, BarChart3, TrendingUp, Zap, Brain, Mail, Globe,
+  Code, Layout, Palette, Megaphone, Sparkles, Lightbulb, Rocket, Shield, Star, Heart,
+};
 
 /* ─────────────────────────────────────────
    DATA  (all 12 services, data unchanged)
@@ -190,8 +197,22 @@ function ServiceCard({ s, i }: { s: Service; i: number }) {
 ───────────────────────────────────────── */
 const INITIAL_VISIBLE = 8; // 2 rows × 4 columns
 
+const seedServices = [
+  { icon: "Search", title: "SEO Optimization", description: "Dominate search results with technical excellence and revenue-driving intent strategies.", badge: "Most Requested", badgeColor: "bg-blue-500/85", image: "https://images.pexels.com/photos/9822732/pexels-photo-9822732.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=260&w=400" },
+  { icon: "Target", title: "Paid Advertising", description: "AI-optimized ad spend across Meta, Google, and LinkedIn for maximum ROI.", badge: "Top ROAS", badgeColor: "bg-orange-500/85", image: "https://images.pexels.com/photos/38285047/pexels-photo-38285047.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=260&w=400" },
+  { icon: "Users", title: "Affiliate Marketing", description: "Launch global affiliate networks with automated payouts and fraud detection.", badge: "5K+ Partners", badgeColor: "bg-violet-500/85", image: "https://images.pexels.com/photos/590041/pexels-photo-590041.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=260&w=400" },
+  { icon: "BarChart3", title: "Performance Marketing", description: "Data-driven acquisition across all channels with real-time optimization.", badge: "98% Retention", badgeColor: "bg-emerald-500/85", image: "https://images.pexels.com/photos/7947849/pexels-photo-7947849.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=260&w=400" },
+  { icon: "Megaphone", title: "Social Media Marketing", description: "Build brand presence and engage audiences across all major social platforms.", badge: "3.8× Engagement", badgeColor: "bg-rose-500/85", image: "https://images.pexels.com/photos/5827838/pexels-photo-5827838.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=260&w=400" },
+  { icon: "Mail", title: "Email Marketing", description: "Automated sequences that nurture leads and drive conversions at scale.", badge: "42% Open Rate", badgeColor: "bg-blue-500/85", image: "https://images.pexels.com/photos/374074/pexels-photo-374074.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=260&w=400" },
+  { icon: "Brain", title: "AI Marketing Solutions", description: "Predictive AI models for customer behavior and campaign optimization.", badge: "94% Accuracy", badgeColor: "bg-violet-500/85", image: "https://images.pexels.com/photos/3861957/pexels-photo-3861957.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=260&w=400" },
+  { icon: "TrendingUp", title: "Growth Strategy", description: "End-to-end strategy combining marketing, product, and data for scaling.", badge: "127% Avg ROI", badgeColor: "bg-emerald-500/85", image: "https://images.pexels.com/photos/7413913/pexels-photo-7413913.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=260&w=400" },
+];
+
 export default function Services() {
   const [showAll, setShowAll] = useState(false);
+  const settings = useLiveSettings({ servicesGrid: seedServices });
+  const grid = settings.servicesGrid && settings.servicesGrid.length ? settings.servicesGrid : seedServices;
+  const services = grid.map((s) => ({ ...s, icon: ICON_MAP[s.icon] || Sparkles }));
 
   const visible = showAll ? services : services.slice(0, INITIAL_VISIBLE);
   const hidden  = services.length - INITIAL_VISIBLE;

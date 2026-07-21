@@ -6,8 +6,9 @@ import { useInView } from "react-intersection-observer";
 import {
   Search, Target, Settings, Rocket,
   BarChart3, BarChart, ArrowUpRight, Zap,
-  LucideIcon, ChevronLeft, ChevronRight,
+  type LucideIcon, ChevronLeft, ChevronRight,
 } from "lucide-react";
+import { useLiveSettings } from "@/data/live-client";
 
 /* ─────────────────────────────────────────────
    STEP DATA
@@ -16,7 +17,7 @@ interface Step {
   number: string;
   title: string;
   description: string;
-  icon: LucideIcon;
+  icon: string;
   accentColor: string;   // tailwind bg class for dot / badge
   softBg: string;        // pastel card background
   iconBg: string;
@@ -24,60 +25,64 @@ interface Step {
   borderColor: string;
 }
 
+const ICON_MAP: Record<string, LucideIcon> = {
+  Search, Target, Settings, Rocket, BarChart3, BarChart, ArrowUpRight, Zap,
+};
+
 const steps: Step[] = [
   {
     number: "01", title: "Discovery",
     description: "We audit your existing channels and identify high-leverage growth opportunities through deep AI analysis.",
-    icon: Search,
+    icon: "Search",
     accentColor: "bg-blue-500", softBg: "bg-blue-50",
     iconBg: "bg-blue-100", iconText: "text-blue-600", borderColor: "border-blue-100",
   },
   {
     number: "02", title: "Strategy",
     description: "Creation of a custom marketing engine including affiliate portals, ad campaigns, and content schedules.",
-    icon: Target,
+    icon: "Target",
     accentColor: "bg-violet-500", softBg: "bg-violet-50",
     iconBg: "bg-violet-100", iconText: "text-violet-600", borderColor: "border-violet-100",
   },
   {
     number: "03", title: "Design",
     description: "Creative development of landing pages, ad assets, email templates, and complete brand guidelines.",
-    icon: Settings,
+    icon: "Settings",
     accentColor: "bg-pink-500", softBg: "bg-pink-50",
     iconBg: "bg-pink-100", iconText: "text-pink-600", borderColor: "border-pink-100",
   },
   {
     number: "04", title: "Development",
     description: "Technical implementation of tracking, automation, integrations, and campaign infrastructure.",
-    icon: Zap,
+    icon: "Zap",
     accentColor: "bg-amber-500", softBg: "bg-amber-50",
     iconBg: "bg-amber-100", iconText: "text-amber-600", borderColor: "border-amber-100",
   },
   {
     number: "05", title: "Launch",
     description: "Deployment of automation tools and live reporting. Real-time feedback loops begin immediately.",
-    icon: Rocket,
+    icon: "Rocket",
     accentColor: "bg-emerald-500", softBg: "bg-emerald-50",
     iconBg: "bg-emerald-100", iconText: "text-emerald-600", borderColor: "border-emerald-100",
   },
   {
     number: "06", title: "Optimization",
     description: "Continuous A/B testing, bid management, and creative optimization based on live performance data.",
-    icon: BarChart3,
+    icon: "BarChart3",
     accentColor: "bg-cyan-500", softBg: "bg-cyan-50",
     iconBg: "bg-cyan-100", iconText: "text-cyan-600", borderColor: "border-cyan-100",
   },
   {
     number: "07", title: "Reporting",
     description: "Weekly performance reports with actionable insights and forward-looking strategic recommendations.",
-    icon: BarChart,
+    icon: "BarChart",
     accentColor: "bg-indigo-500", softBg: "bg-indigo-50",
     iconBg: "bg-indigo-100", iconText: "text-indigo-600", borderColor: "border-indigo-100",
   },
   {
     number: "08", title: "Growth",
     description: "Aggressive expansion of high-ROI channels and continuous optimisation of ad spend efficiency.",
-    icon: ArrowUpRight,
+    icon: "ArrowUpRight",
     accentColor: "bg-teal-500", softBg: "bg-teal-50",
     iconBg: "bg-teal-100", iconText: "text-teal-600", borderColor: "border-teal-100",
   },
@@ -128,7 +133,7 @@ function GhostCard({
   step: Step;
   side: "left" | "right";
 }) {
-  const Icon = step.icon;
+  const Icon = ICON_MAP[step.icon] || Search;
   return (
     <div
       className={`
@@ -165,8 +170,8 @@ function GhostCard({
 /* ─────────────────────────────────────────────
    ACTIVE CARD  (centred, full detail)
 ───────────────────────────────────────────── */
-function ActiveCard({ step, dir }: { step: Step; dir: Direction }) {
-  const Icon = step.icon;
+function ActiveCard({ step, dir, steps: allSteps }: { step: Step; dir: Direction; steps: Step[] }) {
+  const Icon = ICON_MAP[step.icon] || Search;
   const vars = cardVariants(dir);
 
   return (
@@ -189,7 +194,7 @@ function ActiveCard({ step, dir }: { step: Step; dir: Direction }) {
         {/* Step badge */}
         <div className="flex items-center justify-between mb-4">
           <span className={`text-[10px] font-black uppercase tracking-widest ${step.iconText}`}>
-            Step {step.number} / {String(steps.length).padStart(2, "0")}
+             Step {step.number} / {String(allSteps.length).padStart(2, "0")}
           </span>
           <span className={`w-2 h-2 rounded-full ${step.accentColor} shadow-lg`} />
         </div>
@@ -213,8 +218,8 @@ function ActiveCard({ step, dir }: { step: Step; dir: Direction }) {
 
         {/* Segmented progress bar */}
         <div className="flex items-center gap-1 mt-auto">
-          {steps.map((_, i) => {
-            const idx = steps.indexOf(step);
+          {allSteps.map((_, i) => {
+            const idx = allSteps.indexOf(step);
             return (
               <div
                 key={i}
@@ -238,6 +243,8 @@ function ActiveCard({ step, dir }: { step: Step; dir: Direction }) {
    MAIN SECTION
 ───────────────────────────────────────────── */
 export default function Process() {
+  const settings = useLiveSettings({ process: { steps } });
+  const liveSteps = settings.process?.steps && settings.process.steps.length ? settings.process.steps : steps;
   const [activeIdx, setActiveIdx]   = useState(0);
   const [direction, setDirection]   = useState<Direction>("right");
   const [running, setRunning]       = useState(false);
@@ -305,9 +312,9 @@ export default function Process() {
 
   useEffect(() => () => clearTimer(), []);
 
-  const prevStep = steps[(activeIdx - 1 + steps.length) % steps.length];
-  const currStep = steps[activeIdx];
-  const nextStep = steps[(activeIdx + 1) % steps.length];
+  const prevStep = liveSteps[(activeIdx - 1 + liveSteps.length) % liveSteps.length];
+  const currStep = liveSteps[activeIdx];
+  const nextStep = liveSteps[(activeIdx + 1) % liveSteps.length];
 
   return (
     <section
@@ -368,7 +375,7 @@ export default function Process() {
             style={{ width: "100%", maxWidth: 340 }}
           >
             <AnimatePresence mode="wait" custom={direction}>
-              <ActiveCard key={currStep.number} step={currStep} dir={direction} />
+              <ActiveCard key={currStep.number} step={currStep} dir={direction} steps={liveSteps} />
             </AnimatePresence>
           </div>
 
@@ -406,7 +413,7 @@ export default function Process() {
 
           {/* Dot indicators */}
           <div className="flex items-center gap-2">
-            {steps.map((s, i) => (
+             {liveSteps.map((s, i) => (
               <button
                 key={s.number}
                 onClick={() => {

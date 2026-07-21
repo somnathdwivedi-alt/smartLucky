@@ -3,16 +3,14 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getPlatformBySlug, allPlatforms } from "@/data/platforms";
+import { getPlatformBySlug, getSiteSettings } from "@/data/live";
 import { Check, ArrowRight, ChevronRight, ArrowLeft, HelpCircle } from "lucide-react";
 
-export async function generateStaticParams() {
-  return allPlatforms.map((p) => ({ slug: p.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const platform = getPlatformBySlug(slug);
+  const platform = await getPlatformBySlug(slug);
   if (!platform) return { title: "Platform Not Found" };
   return {
     title: `${platform.title} | GrowthPlatform`,
@@ -23,8 +21,17 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function PlatformPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const platform = getPlatformBySlug(slug);
+  const platform = await getPlatformBySlug(slug);
   if (!platform) notFound();
+  const siteSettings = await getSiteSettings();
+  const dCta = siteSettings?.platformsPage?.detailCta;
+
+  const detCtaTitle = (dCta?.title || "Ready to start building with {title}?").replace("{title}", platform.title);
+  const detCtaDesc = dCta?.description || "Join 500+ enterprises that trust GrowthPlatform for their growth infrastructure needs.";
+  const detCtaPrimary = dCta?.primaryCta || "Get Started";
+  const detCtaSecondary = dCta?.secondaryCta || "Talk to Sales";
+  const detCtaPrimaryHref = dCta?.primaryHref || "/contact";
+  const detCtaSecondaryHref = dCta?.secondaryHref || "/contact";
 
   return (
     <main id="main-content" className="bg-white">
@@ -177,14 +184,14 @@ export default async function PlatformPage({ params }: { params: Promise<{ slug:
       {/* CTA Strip */}
       <section className="py-12 bg-gray-900 text-white text-center">
         <div className="max-w-lg mx-auto px-4">
-          <h2 className="text-[1.6rem] text-white font-semibold mb-3">Ready to start building with {platform.title}?</h2>
-          <p className="text-gray-400 text-[14px] mb-6">Join 500+ enterprises that trust GrowthPlatform for their growth infrastructure needs.</p>
+          <h2 className="text-[1.6rem] text-white font-semibold mb-3">{detCtaTitle}</h2>
+          <p className="text-gray-400 text-[14px] mb-6">{detCtaDesc}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/contact" className="inline-flex items-center justify-center gap-2 bg-primary text-white px-7 py-3 rounded-full font-semibold text-sm hover:bg-blue-700 transition-all">
-              Get Started <ArrowRight className="w-4 h-4" />
+            <Link href={detCtaPrimaryHref} className="inline-flex items-center justify-center gap-2 bg-primary text-white px-7 py-3 rounded-full font-semibold text-sm hover:bg-blue-700 transition-all">
+              {detCtaPrimary} <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link href="/contact" className="inline-flex items-center justify-center gap-2 bg-white/10 border border-white/20 text-white px-7 py-3 rounded-full font-semibold text-sm hover:bg-white/20 transition-all">
-              Talk to Sales
+            <Link href={detCtaSecondaryHref} className="inline-flex items-center justify-center gap-2 bg-white/10 border border-white/20 text-white px-7 py-3 rounded-full font-semibold text-sm hover:bg-white/20 transition-all">
+              {detCtaSecondary}
             </Link>
           </div>
         </div>

@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, TrendingUp } from "lucide-react";
+import { ArrowRight, TrendingUp, Globe, Building2, ShoppingBag, Code2, HeartPulse, Landmark, Factory, Car } from "lucide-react";
+import { useLiveSettings } from "@/data/live-client";
 
 /* ─────────────────────────────────────────────
    Real SVG icons per industry
@@ -107,6 +108,20 @@ const AutomotiveIcon = () => (
 /* ─────────────────────────────────────────────
    Industry data with real Pexels images
 ───────────────────────────────────────────── */
+const ICON_BY_NAME: Record<string, () => React.JSX.Element> = {
+  Healthcare: HealthIcon,
+  Education: EduIcon,
+  "Real Estate": RealEstateIcon,
+  Finance: FinanceIcon,
+  Startups: StartupIcon,
+  SaaS: SaaSIcon,
+  Retail: RetailIcon,
+  Hospitality: HospitalityIcon,
+  Manufacturing: ManufacturingIcon,
+  Automotive: AutomotiveIcon,
+};
+const FALLBACK_ICON: () => React.JSX.Element = () => <Globe />;
+
 const industries = [
   {
     Icon: HealthIcon,
@@ -290,8 +305,15 @@ function IndustryCard({ ind, i }: { ind: typeof industries[0]; i: number }) {
 
 /* ─────────────────────────────────────────────
    SECTION
-───────────────────────────────────────────── */
+──────────────────────────────────────────── */
 export default function Industries() {
+  const settings = useLiveSettings({ industries });
+  const live = settings.industries && settings.industries.length ? settings.industries : industries;
+  const merged = live.map((ind) => ({
+    ...ind,
+    Icon: ICON_BY_NAME[ind.name] || FALLBACK_ICON,
+  }));
+
   return (
     <section className="py-12 md:py-14 bg-gray-50" aria-label="Industries we serve">
       <div className="container-custom">
@@ -312,7 +334,7 @@ export default function Industries() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {industries.map((ind, i) => (
+          {merged.map((ind, i) => (
             <IndustryCard key={ind.name} ind={ind} i={i} />
           ))}
         </div>

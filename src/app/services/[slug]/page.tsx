@@ -3,16 +3,14 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getServiceBySlug, allServices } from "@/data/services";
+import { getServiceBySlug, getAllServices } from "@/data/live";
 import { Check, ArrowRight, ChevronRight, ArrowLeft, Wrench, Lightbulb, HelpCircle } from "lucide-react";
 
-export async function generateStaticParams() {
-  return allServices.map((s) => ({ slug: s.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const svc = getServiceBySlug(slug);
+  const svc = await getServiceBySlug(slug);
   if (!svc) return { title: "Service Not Found" };
   return {
     title: `${svc.title} | GrowthPlatform`,
@@ -23,8 +21,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const svc = getServiceBySlug(slug);
+  const svc = await getServiceBySlug(slug);
   if (!svc) notFound();
+
+  const relatedServices = (await getAllServices()).filter(
+    (s) => s.category === svc.category && s.slug !== svc.slug
+  );
 
   return (
     <main id="main-content" className="bg-white">
@@ -229,9 +231,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             <div className="bg-white rounded-2xl border border-[#EAEAEA] p-5">
               <h3 className="text-[12px] font-bold text-gray-900 mb-4 uppercase tracking-wider">Related Services</h3>
               <div className="space-y-1">
-                {allServices
-                  .filter((s) => s.category === svc.category && s.slug !== svc.slug)
-                  .map((rel) => (
+                {relatedServices.map((rel) => (
                     <Link key={rel.slug} href={`/services/${rel.slug}`}
                       className="flex items-center justify-between px-3 py-2 text-[12.5px] text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors group">
                       {rel.title}

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Search } from "lucide-react";
+import { useLiveSettings } from "@/data/live-client";
 
 const faqs = [
   {
@@ -55,16 +56,21 @@ const faqs = [
   },
 ];
 
-const categories = ["All", "General", "Pricing", "Results", "Technology", "Support"];
+const defaultCategories = ["All", "General", "Pricing", "Results", "Technology", "Support"];
 
 export default function FAQ() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState("All");
+  const settings = useLiveSettings({ faqs: faqs });
+  const liveFaqs = settings.faqs && settings.faqs.length ? settings.faqs : faqs;
+  const categories = Array.from(
+    new Set(["All", ...liveFaqs.map((f) => f.category || "General")])
+  );
 
   const filteredFaqs =
     activeCategory === "All"
-      ? faqs
-      : faqs.filter((faq) => faq.category === activeCategory);
+      ? liveFaqs
+      : liveFaqs.filter((faq) => (faq.category || "General") === activeCategory);
 
   return (
     <section className="py-14 md:py-16 bg-gray-50" aria-label="Frequently asked questions">

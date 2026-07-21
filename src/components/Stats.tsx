@@ -4,57 +4,35 @@ import { motion } from "framer-motion";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 import { BarChart3, Users, TrendingUp, Globe } from "lucide-react";
+import { useLiveSettings } from "@/data/live-client";
 
-const stats = [
-  {
-    icon: BarChart3,
-    value: 500,
-    suffix: "+",
-    label: "Projects Completed",
-    sublabel: "Across 20+ industries",
-    iconBg: "bg-blue-100",
-    iconColor: "text-blue-600",
-    accentBg: "bg-blue-50",
-    border: "border-blue-100",
-  },
-  {
-    icon: Users,
-    value: 250,
-    suffix: "+",
-    label: "Active Clients",
-    sublabel: "From 50+ countries",
-    iconBg: "bg-violet-100",
-    iconColor: "text-violet-600",
-    accentBg: "bg-violet-50",
-    border: "border-violet-100",
-  },
-  {
-    icon: TrendingUp,
-    value: 98,
-    suffix: "%",
-    label: "Client Retention",
-    sublabel: "Year over year avg",
-    iconBg: "bg-emerald-100",
-    iconColor: "text-emerald-600",
-    accentBg: "bg-emerald-50",
-    border: "border-emerald-100",
-  },
-  {
-    icon: Globe,
-    value: 120,
-    prefix: "$",
-    suffix: "M+",
-    label: "Revenue Generated",
-    sublabel: "For clients worldwide",
-    iconBg: "bg-orange-100",
-    iconColor: "text-orange-600",
-    accentBg: "bg-orange-50",
-    border: "border-orange-100",
-  },
+const ICONS = [BarChart3, Users, TrendingUp, Globe];
+const ACCENTS = [
+  { iconBg: "bg-blue-100", iconColor: "text-blue-600", accentBg: "bg-blue-50", border: "border-blue-100" },
+  { iconBg: "bg-violet-100", iconColor: "text-violet-600", accentBg: "bg-violet-50", border: "border-violet-100" },
+  { iconBg: "bg-emerald-100", iconColor: "text-emerald-600", accentBg: "bg-emerald-50", border: "border-emerald-100" },
+  { iconBg: "bg-orange-100", iconColor: "text-orange-600", accentBg: "bg-orange-50", border: "border-orange-100" },
+];
+
+const seedStats = [
+  { value: "500", suffix: "+", label: "Projects Completed", sublabel: "Across 20+ industries" },
+  { value: "250", suffix: "+", label: "Active Clients", sublabel: "From 50+ countries" },
+  { value: "98", suffix: "%", label: "Client Retention", sublabel: "Year over year avg" },
+  { value: "120", prefix: "$", suffix: "M+", label: "Revenue Generated", sublabel: "For clients worldwide" },
 ];
 
 export default function Stats() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 });
+  const settings = useLiveSettings({ stats: seedStats });
+  const stats = (settings.stats && settings.stats.length ? settings.stats : seedStats).map((s, i) => ({
+    ...ACCENTS[i % ACCENTS.length],
+    icon: ICONS[i % ICONS.length],
+    value: Number(s.value) || 0,
+    prefix: s.prefix || "",
+    suffix: s.suffix || "",
+    label: s.label,
+    sublabel: s.sublabel || "",
+  }));
 
   return (
     <section ref={ref} className="py-16 md:py-20 bg-white" aria-label="Company statistics">

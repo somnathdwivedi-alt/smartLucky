@@ -1,15 +1,23 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, BarChart3, Zap, TrendingUp, Check, ArrowRight } from "lucide-react";
+import { Shield, BarChart3, Zap, TrendingUp, Check, ArrowRight, type LucideIcon } from "lucide-react";
 import Link from "next/link";
+import { useLiveSettings } from "@/data/live-client";
+
+/* ─────────────────────────────────────────
+   ICON MAP
+───────────────────────────────────────── */
+const ICON_MAP: Record<string, LucideIcon> = {
+  Shield, BarChart3, Zap, TrendingUp,
+};
 
 /* ─────────────────────────────────────────
    DATA
 ───────────────────────────────────────── */
 const features = [
   {
-    icon: Zap,
+    icon: "Zap",
     title: "AI Powered",
     description: "Proprietary models that predict trends before they happen.",
     badge: "Autonomous",
@@ -19,7 +27,7 @@ const features = [
     badgeColor: "bg-blue-500/85",
   },
   {
-    icon: BarChart3,
+    icon: "BarChart3",
     title: "Data Driven",
     description: "Every decision backed by billions of real-time data points.",
     badge: "Real-Time",
@@ -29,7 +37,7 @@ const features = [
     badgeColor: "bg-emerald-500/85",
   },
   {
-    icon: Shield,
+    icon: "Shield",
     title: "Transparent Reporting",
     description: "Live dashboards with 100% visibility into every dollar spent.",
     badge: "Full Visibility",
@@ -39,7 +47,7 @@ const features = [
     badgeColor: "bg-violet-500/85",
   },
   {
-    icon: TrendingUp,
+    icon: "TrendingUp",
     title: "ROI Focused",
     description: "We don't just deliver clicks; we deliver bottom-line growth.",
     badge: "Results First",
@@ -60,7 +68,8 @@ const comparisonData = [
 /* ─────────────────────────────────────────
    COMPACT FOOD-CARD
 ───────────────────────────────────────── */
-function FeatureCard({ f, i }: { f: typeof features[0]; i: number }) {
+function FeatureCard({ f, i }: { f: typeof features[0] & { icon: string }; i: number }) {
+  const Icon = ICON_MAP[f.icon] || Zap;
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -85,7 +94,7 @@ function FeatureCard({ f, i }: { f: typeof features[0]; i: number }) {
 
         {/* Icon inside image — top-left */}
         <div className="absolute top-2.5 left-2.5 w-8 h-8 bg-white/15 backdrop-blur-md rounded-[9px] border border-white/20 flex items-center justify-center">
-          <f.icon className="w-4 h-4 text-white" />
+          <Icon className="w-4 h-4 text-white" />
         </div>
 
         {/* Badge — bottom-left */}
@@ -125,6 +134,13 @@ function FeatureCard({ f, i }: { f: typeof features[0]; i: number }) {
    SECTION
 ───────────────────────────────────────── */
 export default function WhyChooseUs() {
+  const settings = useLiveSettings({
+    whyChooseUs: { features, comparisonData },
+  });
+  const data = settings.whyChooseUs || {};
+  const featureList = data.features && data.features.length ? data.features : features;
+  const comparison = data.comparisonData && data.comparisonData.length ? data.comparisonData : comparisonData;
+
   return (
     <section
       className="py-16 md:py-20 bg-[#0a0f1e] text-white relative overflow-hidden"
@@ -162,7 +178,7 @@ export default function WhyChooseUs() {
 
         {/* ── 4 compact feature cards ── */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          {features.map((f, i) => (
+          {featureList.map((f, i) => (
             <FeatureCard key={f.title} f={f} i={i} />
           ))}
         </div>
@@ -182,7 +198,7 @@ export default function WhyChooseUs() {
             <div className="px-5 py-3 text-[11px] font-bold text-primary uppercase tracking-wider">GrowthPlatform</div>
           </div>
 
-          {comparisonData.map((row, i) => (
+          {comparison.map((row, i) => (
             <motion.div
               key={row.feature}
               initial={{ opacity: 0, x: -10 }}

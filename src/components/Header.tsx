@@ -8,6 +8,7 @@ import {
   BarChart3, Users, Globe, Target,
   Zap, Palette, TrendingUp, Layers,
 } from "lucide-react";
+import { useLiveSettings } from "@/data/live-client";
 
 /* ─── Mega-menu data ─── */
 const services = [
@@ -63,11 +64,41 @@ const solutions = [
 ];
 
 /* ══════════════════════════════════════════ */
+const seedNav = {
+  services: [
+    { category: "Search & SEO", icon: "Target", items: [{ name: "SEO Optimization", href: "/services/seo-optimization" }, { name: "Technical SEO", href: "/services/technical-seo" }, { name: "Local SEO", href: "/services/local-seo" }, { name: "Content Marketing", href: "/services/content-marketing" }] },
+    { category: "Paid Advertising", icon: "TrendingUp", items: [{ name: "Google Ads", href: "/services/google-ads" }, { name: "Meta Ads", href: "/services/meta-ads" }, { name: "YouTube Ads", href: "/services/youtube-ads" }, { name: "Programmatic Ads", href: "/services/programmatic" }] },
+    { category: "Growth Marketing", icon: "BarChart3", items: [{ name: "Affiliate Marketing", href: "/services/affiliate" }, { name: "Performance Marketing", href: "/services/performance" }, { name: "Lead Generation", href: "/services/lead-gen" }, { name: "CRO", href: "/services/cro" }] },
+    { category: "Creative & Dev", icon: "Palette", items: [{ name: "Website Design", href: "/services/web-design" }, { name: "Web Development", href: "/services/web-dev" }, { name: "Landing Pages", href: "/services/landing-pages" }, { name: "UI/UX Design", href: "/services/ui-ux" }] },
+  ],
+  solutions: [
+    { name: "Enterprise", href: "/solutions/enterprise", icon: "Globe" },
+    { name: "SaaS", href: "/solutions/saas", icon: "Layers" },
+    { name: "E-commerce", href: "/solutions/ecommerce", icon: "Target" },
+    { name: "Startups", href: "/solutions/startups", icon: "Zap" },
+    { name: "Healthcare", href: "/solutions/healthcare", icon: "Users" },
+    { name: "Finance", href: "/solutions/finance", icon: "BarChart3" },
+  ],
+};
+
+const HEADER_ICONS: Record<string, React.ElementType> = {
+  Target, TrendingUp, BarChart3, Palette, Globe, Layers, Zap, Users,
+};
+
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const settings = useLiveSettings({ nav: seedNav });
+  const navServices = (settings.nav?.services?.length ? settings.nav.services : seedNav.services).map((g) => ({
+    ...g,
+    icon: HEADER_ICONS[g.icon] || Target,
+  }));
+  const navSolutions = (settings.nav?.solutions?.length ? settings.nav.solutions : seedNav.solutions).map((s) => ({
+    ...s,
+    icon: HEADER_ICONS[s.icon] || Globe,
+  }));
 
   /* Scroll detection */
   useEffect(() => {
@@ -137,7 +168,7 @@ export default function Header() {
                       className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-[660px] bg-white rounded-2xl shadow-xl shadow-gray-900/10 border border-gray-100 p-5"
                     >
                       <div className="grid grid-cols-2 gap-5">
-                        {services.map((group) => (
+                        {navServices.map((group) => (
                           <div key={group.category}>
                             <div className="flex items-center gap-2 mb-2.5">
                               <group.icon className="w-3.5 h-3.5 text-primary" />
@@ -188,7 +219,7 @@ export default function Header() {
                       transition={{ duration: 0.18 }}
                       className="absolute top-full left-0 mt-1 w-52 bg-white rounded-xl shadow-xl shadow-gray-900/10 border border-gray-100 p-2"
                     >
-                      {solutions.map((item) => (
+                      {navSolutions.map((item) => (
                         <Link
                           key={item.name}
                           href={item.href}
@@ -297,7 +328,7 @@ export default function Header() {
                       Platform
                     </p>
                     <div className="space-y-0.5">
-                      {services.flatMap((g) =>
+                      {navServices.flatMap((g) =>
                         g.items.map((item) => (
                           <Link
                             key={item.name}
@@ -318,7 +349,7 @@ export default function Header() {
                       Solutions
                     </p>
                     <div className="space-y-0.5">
-                      {solutions.map((item) => (
+                      {navSolutions.map((item) => (
                         <Link
                           key={item.name}
                           href={item.href}

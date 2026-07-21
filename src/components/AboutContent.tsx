@@ -1,13 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Lightbulb, Globe, CheckCircle2, ArrowRight, TrendingUp, Users, Award, Zap } from "lucide-react";
+import { Shield, Lightbulb, Globe, CheckCircle2, ArrowRight, TrendingUp, Users, Award, Zap, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 import ServiceCategoryCard from "@/components/ui/ServiceCategoryCard";
 import { getCardColor } from "@/lib/cardColors";
+import { useLiveSettings } from "@/data/live-client";
 
-/* ─────────────── DATA ─────────────── */
+/* ─────────────── ICON MAPS ─────────────── */
+
+const VALUE_ICON_MAP: Record<string, LucideIcon> = { Shield, Lightbulb, Globe };
+const VISION_ICON_MAP: Record<string, LucideIcon> = { Zap };
+
+/* ─────────────── DATA (seed / fallback) ─────────────── */
 
 const timeline = [
   {
@@ -50,7 +56,7 @@ const timeline = [
 
 const values = [
   {
-    icon: Shield,
+    icon: "Shield",
     title: "Radical Trust",
     description:
       "We believe transparency is the foundation of every successful partnership. Our AI is open-book — every decision is explainable and every dollar is accounted for.",
@@ -60,7 +66,7 @@ const values = [
     tags: ["Transparency", "Open AI", "Accountability"],
   },
   {
-    icon: Lightbulb,
+    icon: "Lightbulb",
     title: "Pure Innovation",
     description:
       "We don't follow trends; we set them. Our engineering culture is obsessed with pushing machine learning to its limits to solve real business problems.",
@@ -70,7 +76,7 @@ const values = [
     tags: ["Machine Learning", "R&D", "Engineering"],
   },
   {
-    icon: Globe,
+    icon: "Globe",
     title: "Global Reach",
     description:
       "Scale beyond borders. Our platform empowers businesses to connect with partners across 50+ countries instantly with multi-currency payout support.",
@@ -86,28 +92,28 @@ const team = [
     name: "Sarah Chen",
     role: "CEO & Co-Founder",
     bio: "Ex-Google. Led performance marketing for 7 years before founding GrowthPlatform.",
-    image:
+    avatar:
       "https://images.pexels.com/photos/4342352/pexels-photo-4342352.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=500",
   },
   {
     name: "Marcus Thorne",
     role: "CTO",
     bio: "Ex-Meta engineer. Built the AI infrastructure powering 2M+ campaigns per month.",
-    image:
+    avatar:
       "https://images.pexels.com/photos/16970452/pexels-photo-16970452.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=500",
   },
   {
     name: "Elena Rodriguez",
     role: "Head of Product",
     bio: "Previously led product at two unicorn SaaS companies. Obsessed with UX that converts.",
-    image:
+    avatar:
       "https://images.pexels.com/photos/7172996/pexels-photo-7172996.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=500",
   },
   {
     name: "David Park",
     role: "Chief Revenue Officer",
     bio: "Scaled revenue from $2M to $50M ARR in under 3 years across B2B SaaS.",
-    image:
+    avatar:
       "https://images.pexels.com/photos/12437056/pexels-photo-12437056.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=600&w=500",
   },
 ];
@@ -128,9 +134,103 @@ const perks = [
   "Global team retreats twice a year",
 ];
 
+const heroImages = [
+  "https://images.pexels.com/photos/6805161/pexels-photo-6805161.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=700&w=500",
+  "https://images.pexels.com/photos/5324892/pexels-photo-5324892.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=400&w=500",
+  "https://images.pexels.com/photos/17737193/pexels-photo-17737193.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=400&w=500",
+  "https://images.pexels.com/photos/6804073/pexels-photo-6804073.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=700&w=500",
+];
+
+const vision = {
+  heading: "Growth Platform Vision",
+  subheading: "Building the unified intelligence layer for the commerce ecosystem.",
+  sustainableScaling: {
+    tag: "Sustainable Scaling",
+    title: "Building infrastructure to enable petabytes of data with zero carbon footprint.",
+    description: "Our cloud-native architecture is optimized for efficiency at every layer.",
+    image: "https://images.pexels.com/photos/7693692/pexels-photo-7693692.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=900&w=1200",
+  },
+  autonomousGrowth: {
+    title: "Autonomous Growth",
+    description: "Self-optimizing campaigns that learn from market fluctuations in real-time.",
+  },
+  aiFirst: {
+    title: "AI-First Strategy",
+    subtitle: "Every decision, data-driven",
+    image: "https://images.pexels.com/photos/8370345/pexels-photo-8370345.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=600",
+  },
+};
+
+const global = {
+  heading: "San Francisco",
+  city: "San Francisco",
+  hubsText: "With hubs in London, Tokyo, Singapore, and Sydney.",
+  description:
+    "The growth engine for the next generation of enterprise performance marketing, operating at planetary scale.",
+  image: "https://images.pexels.com/photos/6804073/pexels-photo-6804073.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=700&w=1400",
+  stats: [
+    { value: "180+", label: "Team Members" },
+    { value: "2.5M", label: "Campaigns Run" },
+    { value: "50+", label: "Countries" },
+    { value: "99.99%", label: "Uptime SLA" },
+  ],
+  cities: ["🇺🇸 San Francisco", "🇬🇧 London", "🇯🇵 Tokyo", "🇸🇬 Singapore", "🇦🇺 Sydney"],
+};
+
+const careers = {
+  heading: "Build the Future of Growth",
+  subheading: "Growth",
+  description:
+    "We're a team of builders, dreamers, and data scientists working on problems that matter. Join us and help redefine how the world grows.",
+  perks,
+  images: [
+    "https://images.pexels.com/photos/15543028/pexels-photo-15543028.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
+    "https://images.pexels.com/photos/6405773/pexels-photo-6405773.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=300&w=400",
+    "https://images.pexels.com/photos/6804580/pexels-photo-6804580.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=300&w=400",
+    "https://images.pexels.com/photos/7710118/pexels-photo-7710118.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400",
+  ],
+};
+
 /* ─────────────── COMPONENT ─────────────── */
 
 export default function AboutContent() {
+  const settings = useLiveSettings({
+    aboutPage: {
+      mission: "Mission: AI-Powered Growth",
+      heading: "Revolutionizing Growth with Intelligence.",
+      description:
+        "GrowthPlatform exists to bridge the gap between complex data and strategic growth. We build the infrastructure for the next generation of affiliate and referral ecosystems, powered by autonomous AI.",
+      primaryCta: "Join Our Mission",
+      secondaryCta: "View Careers",
+      heroImages,
+      stats: [
+        { value: "2,000+", label: "Enterprise Clients" },
+        { value: "$120M+", label: "Revenue Generated" },
+        { value: "50+", label: "Countries Served" },
+        { value: "98%", label: "Client Retention" },
+      ],
+      timeline,
+      values,
+      vision,
+      global,
+      careers,
+    },
+    team: team,
+  });
+
+  const about = settings.aboutPage || {};
+  const liveTeam = settings.team || [];
+
+  const heroImg = about.heroImages?.length ? about.heroImages : heroImages;
+  const heroStats = about.stats?.length ? about.stats : stats;
+  const liveTimeline = about.timeline?.length ? about.timeline : timeline;
+  const liveValues = about.values?.length ? about.values : values;
+  const v = about.vision || vision;
+  const g = about.global || global;
+  const c = about.careers || careers;
+  const livePerks = c.perks?.length ? c.perks : perks;
+  const careerImages = c.images?.length ? c.images : careers.images;
+
   return (
     <div className="overflow-hidden">
 
@@ -165,7 +265,7 @@ export default function AboutContent() {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
                 </span>
                 <span className="text-xs font-semibold text-primary tracking-wide">
-                  Mission: AI-Powered Growth
+                  {about.mission}
                 </span>
               </motion.div>
 
@@ -175,12 +275,7 @@ export default function AboutContent() {
                 transition={{ duration: 0.55, delay: 0.1 }}
                 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-bold text-gray-900 leading-[1.08] tracking-tight"
               >
-                Revolutionizing Growth{" "}
-                <br className="hidden sm:block" />
-                with{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">
-                  Intelligence.
-                </span>
+                {about.heading || "Revolutionizing Growth with Intelligence."}
               </motion.h1>
 
               <motion.p
@@ -189,9 +284,7 @@ export default function AboutContent() {
                 transition={{ duration: 0.55, delay: 0.2 }}
                 className="mt-6 text-lg text-gray-500 leading-relaxed max-w-lg"
               >
-                GrowthPlatform exists to bridge the gap between complex data and strategic growth.
-                We build the infrastructure for the next generation of affiliate and referral ecosystems,
-                powered by autonomous AI.
+                {about.description || "GrowthPlatform exists to bridge the gap between complex data and strategic growth. We build the infrastructure for the next generation of affiliate and referral ecosystems, powered by autonomous AI."}
               </motion.p>
 
               <motion.div
@@ -204,14 +297,14 @@ export default function AboutContent() {
                   href="/contact"
                   className="inline-flex items-center gap-2 bg-gray-900 text-white px-7 py-3.5 rounded-full font-semibold text-sm hover:bg-gray-800 transition-all active:scale-95 shadow-lg shadow-gray-900/10"
                 >
-                  Join Our Mission
+                  {about.primaryCta || "Join Our Mission"}
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   href="#team"
                   className="inline-flex items-center gap-2 bg-white text-gray-700 border border-gray-200 px-7 py-3.5 rounded-full font-semibold text-sm hover:bg-gray-50 transition-all active:scale-95"
                 >
-                  View Careers
+                  {about.secondaryCta || "View Careers"}
                 </Link>
               </motion.div>
 
@@ -222,7 +315,7 @@ export default function AboutContent() {
                 transition={{ duration: 0.55, delay: 0.45 }}
                 className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6 pt-10 border-t border-gray-100"
               >
-                {stats.map((s) => (
+                {heroStats.map((s) => (
                   <div key={s.label}>
                     <p className="text-2xl font-bold text-gray-900">{s.value}</p>
                     <p className="text-xs text-gray-400 mt-0.5">{s.label}</p>
@@ -242,7 +335,7 @@ export default function AboutContent() {
               <div className="flex flex-col gap-3">
                 <div className="flex-1 rounded-2xl overflow-hidden min-h-[260px]">
                   <img
-                    src="https://images.pexels.com/photos/6805161/pexels-photo-6805161.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=700&w=500"
+                    src={heroImg[0]}
                     alt="GrowthPlatform team collaborating"
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     loading="eager"
@@ -250,7 +343,7 @@ export default function AboutContent() {
                 </div>
                 <div className="h-44 rounded-2xl overflow-hidden">
                   <img
-                    src="https://images.pexels.com/photos/5324892/pexels-photo-5324892.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=400&w=500"
+                    src={heroImg[1]}
                     alt="Team strategy meeting"
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     loading="eager"
@@ -262,7 +355,7 @@ export default function AboutContent() {
               <div className="flex flex-col gap-3 mt-10">
                 <div className="h-44 rounded-2xl overflow-hidden">
                   <img
-                    src="https://images.pexels.com/photos/17737193/pexels-photo-17737193.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=400&w=500"
+                    src={heroImg[2]}
                     alt="Colleagues working on laptop"
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     loading="eager"
@@ -270,7 +363,7 @@ export default function AboutContent() {
                 </div>
                 <div className="flex-1 rounded-2xl overflow-hidden min-h-[260px]">
                   <img
-                    src="https://images.pexels.com/photos/6804073/pexels-photo-6804073.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=700&w=500"
+                    src={heroImg[3]}
                     alt="GrowthPlatform engineering team"
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                     loading="eager"
@@ -310,7 +403,7 @@ export default function AboutContent() {
 
           {/* Timeline items — alternating */}
           <div className="space-y-24">
-            {timeline.map((item, index) => (
+            {liveTimeline.map((item, index) => (
               <motion.div
                 key={item.year}
                 initial={{ opacity: 0, y: 40 }}
@@ -372,18 +465,21 @@ export default function AboutContent() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-5">
-            {values.map((v, i) => (
-              <ServiceCategoryCard
-                key={v.title}
-                title={v.title}
-                description={v.description}
-                tags={v.tags}
-                icon={v.icon}
-                href="/about"
-                color={getCardColor(i)}
-                index={i}
-              />
-            ))}
+            {liveValues.map((val, i) => {
+              const Icon = VALUE_ICON_MAP[val.icon] || Shield;
+              return (
+                <ServiceCategoryCard
+                  key={val.title}
+                  title={val.title}
+                  description={val.description}
+                  tags={val.tags}
+                  icon={Icon}
+                  href="/about"
+                  color={getCardColor(i)}
+                  index={i}
+                />
+              );
+            })}
           </div>
         </div>
       </section>
@@ -399,9 +495,9 @@ export default function AboutContent() {
               Vision
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
-              Growth Platform{" "}
+              {v.heading || "Growth Platform"}{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">
-                Vision
+                {v.subheading ? "Vision" : ""}
               </span>
             </h2>
             <p className="mt-4 text-gray-500 text-lg max-w-2xl mx-auto">
@@ -421,7 +517,7 @@ export default function AboutContent() {
               className="md:col-span-2 md:row-span-2 relative rounded-2xl overflow-hidden group"
             >
               <img
-                src="https://images.pexels.com/photos/7693692/pexels-photo-7693692.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=900&w=1200"
+                src={v.sustainableScaling?.image}
                 alt="Sustainable business scaling team"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 loading="lazy"
@@ -429,13 +525,13 @@ export default function AboutContent() {
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/30 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-8">
                 <span className="inline-block bg-white/15 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1 rounded-full mb-3 border border-white/25">
-                  Sustainable Scaling
+                  {v.sustainableScaling?.tag}
                 </span>
                 <h3 className="text-2xl font-bold text-white mb-2">
-                  Building infrastructure to enable petabytes of data with zero carbon footprint.
+                  {v.sustainableScaling?.title}
                 </h3>
                 <p className="text-white/70 text-sm">
-                  Our cloud-native architecture is optimized for efficiency at every layer.
+                  {v.sustainableScaling?.description}
                 </p>
               </div>
             </motion.div>
@@ -454,9 +550,9 @@ export default function AboutContent() {
                 <div className="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center mb-4">
                   <Zap className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">Autonomous Growth</h3>
+                <h3 className="text-xl font-bold text-white mb-2">{v.autonomousGrowth?.title}</h3>
                 <p className="text-white/75 text-sm leading-relaxed">
-                  Self-optimizing campaigns that learn from market fluctuations in real-time.
+                  {v.autonomousGrowth?.description}
                 </p>
               </div>
             </motion.div>
@@ -470,15 +566,15 @@ export default function AboutContent() {
               className="relative rounded-2xl overflow-hidden group"
             >
               <img
-                src="https://images.pexels.com/photos/8370345/pexels-photo-8370345.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=600"
+                src={v.aiFirst?.image}
                 alt="Innovation and technology strategy"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent" />
               <div className="absolute bottom-5 left-5">
-                <p className="text-white font-bold text-base">AI-First Strategy</p>
-                <p className="text-white/70 text-xs mt-0.5">Every decision, data-driven</p>
+                <p className="text-white font-bold text-base">{v.aiFirst?.title}</p>
+                <p className="text-white/70 text-xs mt-0.5">{v.aiFirst?.subtitle}</p>
               </div>
             </motion.div>
           </div>
@@ -488,6 +584,7 @@ export default function AboutContent() {
       {/* ══════════════════════════════════════════
           TEAM — full-bleed cards with real photos
       ══════════════════════════════════════════ */}
+      {liveTeam.length > 0 && (
       <section id="team" className="py-20 md:py-28 bg-white">
         <div className="container-custom">
 
@@ -506,20 +603,20 @@ export default function AboutContent() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {team.map((member, i) => (
+          <div className="flex flex-wrap justify-center gap-6">
+            {liveTeam.map((member, i) => (
               <motion.div
                 key={member.name}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group"
+                className="group w-full max-w-sm"
               >
                 {/* Photo */}
                 <div className="relative rounded-2xl overflow-hidden mb-4 aspect-[4/5]">
                   <img
-                    src={member.image}
+                    src={member.avatar}
                     alt={member.name}
                     className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-600"
                     loading="lazy"
@@ -541,7 +638,8 @@ export default function AboutContent() {
             ))}
           </div>
         </div>
-      </section>
+        </section>
+      )}
 
       {/* ══════════════════════════════════════════
           GLOBAL NETWORK — hero photo + stats
@@ -556,18 +654,18 @@ export default function AboutContent() {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
               Headquartered in{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">
-                San Francisco
+                {g.city}
               </span>
             </h2>
             <p className="mt-4 text-gray-500 text-lg">
-              With hubs in London, Tokyo, Singapore, and Sydney.
+              {g.hubsText}
             </p>
           </div>
 
           {/* Full-width photo with dark overlay stats */}
           <div className="relative rounded-3xl overflow-hidden shadow-2xl shadow-gray-900/15">
             <img
-              src="https://images.pexels.com/photos/6804073/pexels-photo-6804073.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=700&w=1400"
+              src={g.image}
               alt="GrowthPlatform global office"
               className="w-full h-[480px] object-cover"
               loading="lazy"
@@ -577,18 +675,13 @@ export default function AboutContent() {
             {/* Stats overlay */}
             <div className="absolute inset-0 flex items-center">
               <div className="px-8 md:px-16 w-full md:w-3/5">
-                <h3 className="text-3xl font-bold text-white mb-2">Our Global Presence</h3>
+                <h3 className="text-3xl font-bold text-white mb-2">{g.heading ? `Our Global Presence` : "Our Global Presence"}</h3>
                 <p className="text-white/65 text-base mb-10 max-w-md">
-                  The growth engine for the next generation of enterprise performance marketing, operating at planetary scale.
+                  {g.description}
                 </p>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-                  {[
-                    { value: "180+", label: "Team Members" },
-                    { value: "2.5M", label: "Campaigns Run" },
-                    { value: "50+", label: "Countries" },
-                    { value: "99.99%", label: "Uptime SLA" },
-                  ].map((s) => (
+                  {(g.stats || []).map((s) => (
                     <div key={s.label} className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/15">
                       <p className="text-2xl font-black text-white">{s.value}</p>
                       <p className="text-white/60 text-xs mt-1">{s.label}</p>
@@ -601,7 +694,7 @@ export default function AboutContent() {
 
           {/* Office location chips */}
           <div className="mt-8 flex flex-wrap gap-3 justify-center">
-            {["🇺🇸 San Francisco", "🇬🇧 London", "🇯🇵 Tokyo", "🇸🇬 Singapore", "🇦🇺 Sydney"].map((city) => (
+            {(g.cities || []).map((city) => (
               <span key={city} className="bg-white border border-gray-200 text-gray-700 text-sm font-medium px-5 py-2 rounded-full shadow-sm">
                 {city}
               </span>
@@ -629,18 +722,23 @@ export default function AboutContent() {
                 Careers
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight mb-4">
-                Build the Future of{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">
-                  Growth
-                </span>
+                {c.heading?.includes("Growth") ? (
+                  <>
+                    Build the Future of{" "}
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">
+                      Growth
+                    </span>
+                  </>
+                ) : (
+                  c.heading
+                )}
               </h2>
               <p className="text-gray-500 text-lg mb-8 leading-relaxed">
-                We're a team of builders, dreamers, and data scientists working on problems that matter.
-                Join us and help redefine how the world grows.
+                {c.description}
               </p>
 
               <ul className="space-y-3 mb-8">
-                {perks.map((perk) => (
+                {livePerks.map((perk) => (
                   <li key={perk} className="flex items-center gap-3 text-gray-600">
                     <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" />
                     <span className="text-sm">{perk}</span>
@@ -668,7 +766,7 @@ export default function AboutContent() {
               <div className="space-y-4">
                 <div className="rounded-2xl overflow-hidden h-56">
                   <img
-                    src="https://images.pexels.com/photos/15543028/pexels-photo-15543028.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400"
+                    src={careerImages[0]}
                     alt="Team values session"
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-600"
                     loading="lazy"
@@ -676,7 +774,7 @@ export default function AboutContent() {
                 </div>
                 <div className="rounded-2xl overflow-hidden h-36">
                   <img
-                    src="https://images.pexels.com/photos/6405773/pexels-photo-6405773.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=300&w=400"
+                    src={careerImages[1]}
                     alt="Team celebration"
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-600"
                     loading="lazy"
@@ -686,7 +784,7 @@ export default function AboutContent() {
               <div className="space-y-4 mt-8">
                 <div className="rounded-2xl overflow-hidden h-36">
                   <img
-                    src="https://images.pexels.com/photos/6804580/pexels-photo-6804580.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=300&w=400"
+                    src={careerImages[2]}
                     alt="Team fun at office"
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-600"
                     loading="lazy"
@@ -694,7 +792,7 @@ export default function AboutContent() {
                 </div>
                 <div className="rounded-2xl overflow-hidden h-56">
                   <img
-                    src="https://images.pexels.com/photos/7710118/pexels-photo-7710118.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=500&w=400"
+                    src={careerImages[3]}
                     alt="Team success celebration"
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-600"
                     loading="lazy"

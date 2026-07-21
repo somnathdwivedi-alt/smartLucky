@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useLiveSettings } from "@/data/live-client";
 
 /* ─────────────────────────────────────────────
    Brand logos — NO cards, NO boxes, NO borders
@@ -8,29 +9,30 @@ import { motion } from "framer-motion";
 ───────────────────────────────────────────── */
 interface Brand {
   name: string;
-  logo: string;
+  src: string;
+  logo?: string;
   width: number;   // display width in px
 }
 
 const brands: Brand[] = [
-  { name: "Google",     logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",              width: 110 },
-  { name: "Meta",       logo: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg",      width: 104 },
-  { name: "HubSpot",    logo: "https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg",                  width: 120 },
-  { name: "Microsoft",  logo: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg",     width: 140 },
-  { name: "Amazon",     logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",                   width: 110 },
-  { name: "Adobe",      logo: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Adobe_Systems_logo_and_wordmark.svg", width: 106 },
-  { name: "Shopify",    logo: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopify_logo_2018.svg",             width: 114 },
-  { name: "Slack",      logo: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg",       width: 94 },
-  { name: "Stripe",     logo: "https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg",  width: 84 },
-  { name: "Salesforce", logo: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg",          width: 140 },
-  { name: "Netflix",    logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",             width: 106 },
-  { name: "Airbnb",     logo: "https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg",        width: 114 },
-  { name: "Atlassian",  logo: "https://cdn.simpleicons.org/atlassian/0052CC",                                width: 124 },
-  { name: "Zoom",       logo: "https://cdn.simpleicons.org/zoom/0B5CFF",                                         width: 100 },
-  { name: "Notion",     logo: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png",              width: 40 },
-  { name: "Figma",      logo: "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg",                   width: 36 },
-  { name: "Spotify",    logo: "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg",    width: 36 },
-  { name: "LinkedIn",   logo: "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png",       width: 36 },
+  { name: "Google",     src: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",              width: 110 },
+  { name: "Meta",       src: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg",      width: 104 },
+  { name: "HubSpot",    src: "https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg",                  width: 120 },
+  { name: "Microsoft",  src: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg",     width: 140 },
+  { name: "Amazon",     src: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",                   width: 110 },
+  { name: "Adobe",      src: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Adobe_Systems_logo_and_wordmark.svg", width: 106 },
+  { name: "Shopify",    src: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Shopify_logo_2018.svg",             width: 114 },
+  { name: "Slack",      src: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg",       width: 94 },
+  { name: "Stripe",     src: "https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg",  width: 84 },
+  { name: "Salesforce", src: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg",          width: 140 },
+  { name: "Netflix",    src: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",             width: 106 },
+  { name: "Airbnb",     src: "https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_B%C3%A9lo.svg",        width: 114 },
+  { name: "Atlassian",  src: "https://cdn.simpleicons.org/atlassian/0052CC",                                width: 124 },
+  { name: "Zoom",       src: "https://cdn.simpleicons.org/zoom/0B5CFF",                                         width: 100 },
+  { name: "Notion",     src: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png",              width: 40 },
+  { name: "Figma",      src: "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg",                   width: 36 },
+  { name: "Spotify",    src: "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg",    width: 36 },
+  { name: "LinkedIn",   src: "https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png",       width: 36 },
 ];
 
 /* Split into rows of N */
@@ -42,7 +44,9 @@ function makeRows<T>(arr: T[], size: number): T[][] {
 }
 
 export default function ClientLogos() {
-  const rows = makeRows(brands, ROW_SIZE);
+  const settings = useLiveSettings({ clientLogos: brands });
+  const logos = settings.clientLogos && settings.clientLogos.length ? settings.clientLogos : brands;
+  const rows = makeRows(logos, ROW_SIZE);
 
   return (
     <section
@@ -86,12 +90,12 @@ export default function ClientLogos() {
                   className="flex items-center justify-center opacity-40 hover:opacity-80 grayscale hover:grayscale-0 transition-all duration-300 cursor-default"
                 >
                   <img
-                    src={brand.logo}
+                    src={brand.src}
                     alt={brand.name}
                     title={brand.name}
                     loading="lazy"
                     style={{
-                      width: brand.width,
+                      width: brand.width || 110,
                       height: "auto",
                       maxHeight: 36,
                       objectFit: "contain",

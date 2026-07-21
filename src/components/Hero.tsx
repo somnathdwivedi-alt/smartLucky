@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useLiveSettings } from "@/data/live-client";
 import {
   ArrowRight,
   Users,
@@ -45,6 +46,16 @@ function StatBadge({ icon: Icon, label, value, delay = 0, float = "up" }: StatBa
 /* ---------- Main Hero ---------- */
 export default function Hero() {
   const [btnHovered, setBtnHovered] = useState(false);
+  const settings = useLiveSettings({
+    hero: {
+      heading: "Digital Marketing & Affiliate Growth",
+      subheading:
+        "GrowthPlatform delivers end-to-end digital marketing, affiliate marketing, paid advertising, and SEO — AI-powered solutions built for enterprises that demand measurable ROI.",
+      primaryCta: "Get Free Consultation",
+      secondaryCta: "Explore Our Services",
+    },
+  });
+  const hero = settings.hero || {};
 
   /* ── Kinetic parallax (images shift on scroll) ── */
   const { scrollY } = useScroll();
@@ -98,7 +109,7 @@ export default function Hero() {
               </span>
               <Sparkles className="w-3.5 h-3.5 text-primary" />
               <span className="text-xs font-medium text-gray-600">
-                New: AI Campaign Optimizer 2.0 is live
+                {hero.primaryCta ? "AI Campaign Optimizer 2.0 is live" : "AI Campaign Optimizer 2.0 is live"}
               </span>
             </motion.div>
 
@@ -109,7 +120,7 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-[2.6rem] sm:text-5xl lg:text-[3.2rem] font-semibold text-gray-900 leading-[1.08] tracking-tight"
             >
-              Digital Marketing &{" "}
+              {hero.heading || "Digital Marketing &"}{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">
                 Affiliate Growth
               </span>
@@ -127,7 +138,7 @@ export default function Hero() {
               <strong className="text-gray-700 font-semibold">digital marketing</strong>,{" "}
               <strong className="text-gray-700 font-semibold">affiliate marketing</strong>,{" "}
               <strong className="text-gray-700 font-semibold">paid advertising</strong>,{" "}
-              and <strong className="text-gray-700 font-semibold">SEO</strong> — AI-powered solutions built for enterprises that demand measurable ROI.
+               and <strong className="text-gray-700 font-semibold">SEO</strong> — {hero.subheading || "AI-powered solutions built for enterprises that demand measurable ROI."}
             </motion.p>
 
             {/* Service pills */}
@@ -156,22 +167,22 @@ export default function Hero() {
                 href="/contact"
                 onMouseEnter={() => setBtnHovered(true)}
                 onMouseLeave={() => setBtnHovered(false)}
-                className="inline-flex items-center gap-2 bg-gray-900 text-white px-7 py-3.5 rounded-full font-semibold text-sm hover:bg-gray-800 transition-all active:scale-95 shadow-lg shadow-gray-900/10"
-              >
-                Get Free Consultation
-                <motion.span animate={{ x: btnHovered ? 4 : 0 }} transition={{ duration: 0.18 }}>
-                  <ArrowRight className="w-4 h-4" />
-                </motion.span>
-              </Link>
+                 className="inline-flex items-center gap-2 bg-gray-900 text-white px-7 py-3.5 rounded-full font-semibold text-sm hover:bg-gray-800 transition-all active:scale-95 shadow-lg shadow-gray-900/10"
+                >
+                  {hero.primaryCta || "Get Free Consultation"}
+                  <motion.span animate={{ x: btnHovered ? 4 : 0 }} transition={{ duration: 0.18 }}>
+                    <ArrowRight className="w-4 h-4" />
+                  </motion.span>
+                </Link>
 
-              {/* Services button */}
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-2.5 bg-white text-gray-700 border border-gray-200 px-6 py-3.5 rounded-full font-semibold text-sm hover:bg-gray-50 hover:border-gray-300 transition-all active:scale-95 shadow-sm"
-              >
-                <ArrowRight className="w-4 h-4 text-primary" />
-                Explore Our Services
-              </Link>
+                {/* Services button */}
+                <Link
+                  href="/services"
+                  className="inline-flex items-center gap-2.5 bg-white text-gray-700 border border-gray-200 px-6 py-3.5 rounded-full font-semibold text-sm hover:bg-gray-50 hover:border-gray-300 transition-all active:scale-95 shadow-sm"
+                >
+                  <ArrowRight className="w-4 h-4 text-primary" />
+                  {hero.secondaryCta || "Explore Our Services"}
+                </Link>
             </motion.div>
 
             {/* Demo link */}

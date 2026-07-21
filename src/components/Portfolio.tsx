@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import GrowthCard from "@/components/ui/GrowthCard";
+import { useLiveSettings } from "@/data/live-client";
 
 const caseStudies = [
   {
@@ -44,6 +45,8 @@ const caseStudies = [
 ];
 
 export default function Portfolio() {
+  const settings = useLiveSettings({ portfolio: caseStudies });
+  const studies = settings.portfolio && settings.portfolio.length ? settings.portfolio : caseStudies;
   return (
     <section className="py-14 md:py-16 bg-gray-50" aria-label="Case studies">
       <div className="container-custom">
@@ -65,8 +68,8 @@ export default function Portfolio() {
         </div>
 
         {/* Cards */}
-        <div className="grid md:grid-cols-3 gap-5 max-w-4xl mx-auto">
-          {caseStudies.map((study, i) => (
+          <div className="grid md:grid-cols-3 gap-5 max-w-4xl mx-auto">
+            {studies.map((study, i) => (
             <GrowthCard
               key={study.industry}
               title={study.industry}

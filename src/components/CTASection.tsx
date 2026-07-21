@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { useLiveSettings } from "@/data/live-client";
 
 interface CTASectionProps {
   title?: string;
@@ -13,12 +14,24 @@ interface CTASectionProps {
 }
 
 export default function CTASection({
-  title = "Ready to scale your vision?",
-  subtitle = "Join thousands of category-leading brands who grow faster with GrowthPlatform's AI-driven platform.",
-  primaryCta = "Get Started Free",
-  secondaryCta = "Talk to Sales",
+  title: titleProp,
+  subtitle: subtitleProp,
+  primaryCta: primaryCtaProp,
+  secondaryCta: secondaryCtaProp,
   dark = true,
 }: CTASectionProps) {
+  const settings = useLiveSettings({
+    cta: {
+      title: "Ready to scale your vision?",
+      subtitle: "Join thousands of category-leading brands who grow faster with GrowthPlatform's AI-driven platform.",
+      primaryCta: "Get Started Free",
+      secondaryCta: "Talk to Sales",
+    },
+  });
+  const title = titleProp ?? settings.cta?.title;
+  const subtitle = subtitleProp ?? settings.cta?.subtitle;
+  const primaryCta = primaryCtaProp ?? settings.cta?.primaryCta;
+  const secondaryCta = secondaryCtaProp ?? settings.cta?.secondaryCta;
   return (
     <section className={`py-16 md:py-24 ${dark ? "bg-dark" : "bg-gray-50"}`}>
       <div className="container-custom">
